@@ -1,18 +1,16 @@
-from knn import knn
 import matplotlib.pyplot as plt
 from matplotlib.backend_bases import MouseButton
 from matplotlib.lines import Line2D
 import numpy as np
+from abc import ABC, abstractmethod
 
-class ClassificationPlot:
+class ClassificationPlot(ABC):
 
-    def __init__(self, classifier):
+    def __init__(self):
         self.fig, self.ax = plt.subplots()
-        self.classifier = classifier
         self.mode = -1
         self.color = "blue"
         self.title = "Click to draw blue points. Press Enter to draw red points."
-        self.firstPrediction = True
 
         self.blue_x = np.array([])
         self.blue_y = np.array([])
@@ -43,8 +41,7 @@ class ClassificationPlot:
                 self.red_y = np.append(self.red_y, event.ydata)
                 self.ax.scatter(self.red_x, self.red_y, color=self.color)
             elif self.mode == 0:
-                self.classify((event.xdata, event.ydata))
-                self.firstPrediction = False
+                self.additional_actions((event.xdata, event.ydata))
             self.show()
     
     def onPress(self, event):
@@ -56,36 +53,18 @@ class ClassificationPlot:
                 self.ax.set_title(self.title)
                 self.show()
             elif self.mode == 1:
-                self.title = "Click to plot test point"
-                self.color = "black"
                 self.mode = 0
-                self.ax.set_title(self.title)
+                self.updateAfterPlot()
                 self.show()
+                            
+    @abstractmethod
+    def updateAfterPlot(self):
+        ...
 
+    @abstractmethod
     def classify(self, testing_point):
+        ...
 
-        # deal with excess lines and points for previous testing point
-        if not self.firstPrediction:
-            for i in range(0, len(self.temporaries)):
-                self.temporaries[i].remove()
-            self.temporaries = []
-        else: self.temporaries = []
-
-        # Preparing data to feed to knn
-        training_x = np.hstack((self.blue_x, self.red_x))
-        training_y = np.hstack((self.blue_y, self.red_y))
-        training_data = np.stack((training_x, training_y), axis=1)
-        labels = np.hstack((np.array([-1] * len(self.blue_x)), np.array([1] * len(self.red_x))))
-        label, indices = self.classifier(training_data, labels, testing_point, 5)
-
-        # Drawing prediction
-        for index in indices:
-            # connect points to visualize nearest neighbours
-            self.temporaries.append(self.ax.plot([training_data[index][0], testing_point[0]], [training_data[index][1], testing_point[1]], color="green")[0])
-        self.temporaries.append(self.ax.scatter(testing_point[0], testing_point[1], color=self.color))
-        self.title = f"The labels is: {'Blue' if label == -1 else 'Red'}"
-        self.ax.set_title(self.title)
-        self.show()
-
-cp = ClassificationPlot(knn)
-cp.show()
+    @abstractmethod
+    def additional_actions(self, testing_point):
+        ...
