@@ -8,7 +8,7 @@ class ClassificationPlot(ABC):
 
     def __init__(self):
         self.fig, self.ax = plt.subplots()
-        self.mode = -1
+        self.mode = 0
         self.color = "blue"
         self.title = "Click to draw blue points. Press Enter to draw red points."
 
@@ -32,7 +32,7 @@ class ClassificationPlot(ABC):
     def onClick(self, event):
         if event.button == MouseButton.LEFT:
             self.ax.set_title(self.title)
-            if self.mode == -1:
+            if self.mode == 0:
                 self.blue_x = np.append(self.blue_x, event.xdata)
                 self.blue_y = np.append(self.blue_y, event.ydata)
                 self.ax.scatter(self.blue_x, self.blue_y, color=self.color)
@@ -40,20 +40,20 @@ class ClassificationPlot(ABC):
                 self.red_x = np.append(self.red_x, event.xdata)
                 self.red_y = np.append(self.red_y, event.ydata)
                 self.ax.scatter(self.red_x, self.red_y, color=self.color)
-            elif self.mode == 0:
+            elif self.mode == 2:
                 self.additional_actions((event.xdata, event.ydata))
             self.show()
     
     def onPress(self, event):
         if event.key == "enter":
-            if self.mode == -1:
+            if self.mode == 0:
                 self.title = "Click to draw red points. Press Enter to classify."
                 self.color = "red"
                 self.mode = 1
                 self.ax.set_title(self.title)
                 self.show()
             elif self.mode == 1:
-                self.mode = 0
+                self.mode = 2
                 self.updateAfterPlot()
                 self.show()
                             

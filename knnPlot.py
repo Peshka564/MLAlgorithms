@@ -1,5 +1,5 @@
 from classificationPlot import ClassificationPlot
-from knn import knn
+from knn import knn, knn_eval
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -30,15 +30,15 @@ class KNN_Plotter(ClassificationPlot):
         training_x = np.hstack((self.blue_x, self.red_x))
         training_y = np.hstack((self.blue_y, self.red_y))
         training_data = np.stack((training_x, training_y), axis=1)
-        labels = np.hstack((np.array([-1] * len(self.blue_x)), np.array([1] * len(self.red_x))))
-        label, indices = knn(training_data, labels, np.array([testing_point]), self.k)
+        labels = np.hstack((np.array([0] * len(self.blue_x)), np.array([1] * len(self.red_x))))
+        label, indices = knn(training_data, labels, np.array([testing_point]), self.k, 2)
 
         # Drawing prediction
         for index in indices[0]:
             # connect points to visualize nearest neighbours
             self.temporaries.append(self.ax.plot([training_data[index][0], testing_point[0]], [training_data[index][1], testing_point[1]], color="green")[0])
         self.temporaries.append(self.ax.scatter(testing_point[0], testing_point[1], color=self.color))
-        self.title = f"The labels is: {'Blue' if label[0] == -1 else 'Red'}"
+        self.title = f"The labels is: {'Blue' if label[0] == 0 else 'Red'}"
         self.ax.set_title(self.title)
         self.show()
     
