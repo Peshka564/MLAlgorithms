@@ -6,6 +6,7 @@ import numpy as np
 class KNN_Plotter(ClassificationPlot):
 
     def __init__(self, k):
+        if k == 0: raise Exception("Invalid k")
         super().__init__()
         self.firstPrediction = True
         self.k = k
@@ -41,5 +42,6 @@ class KNN_Plotter(ClassificationPlot):
         self.show()
     
     def additional_actions(self, testing_point):
+        if self.k > len(self.blue_x) + len(self.red_x): raise Exception("Too little points")
         self.classify(testing_point)
         self.firstPrediction = False
