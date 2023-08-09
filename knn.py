@@ -1,6 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt     
      
+# Additional improvements to add:
+# Learn the best metric during training
+# Feature weights
+# Data augmentation
+# Compare with scikit classifier
+
 def knn(training_points, labels, testing_points, k, numberOfClasses, normOrder=2):
 
     n = len(training_points)

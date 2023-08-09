@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 
 class ClassificationPlot(ABC):
 
-    def __init__(self):
+    def __init__(self, range):
         self.fig, self.ax = plt.subplots()
         self.mode = 0
         self.color = "blue"
@@ -17,8 +17,9 @@ class ClassificationPlot(ABC):
         self.red_x = np.array([])
         self.red_y = np.array([])
 
-        self.ax.set_xlim([0, 10])
-        self.ax.set_ylim([0, 10])
+        self.range = range
+        self.ax.set_xlim([self.range[0], self.range[1]])
+        self.ax.set_ylim([self.range[0], self.range[1]])
         self.ax.legend(handles=[Line2D([0], [0], marker='o', color="blue", label="-1", markerfacecolor="blue", markersize=10), 
                                 Line2D([0], [0], marker='o', color="red", label="1", markerfacecolor="red", markersize=10)], loc=1)
 
@@ -35,11 +36,11 @@ class ClassificationPlot(ABC):
             if self.mode == 0:
                 self.blue_x = np.append(self.blue_x, event.xdata)
                 self.blue_y = np.append(self.blue_y, event.ydata)
-                self.ax.scatter(self.blue_x, self.blue_y, color=self.color)
+                self.ax.scatter(self.blue_x, self.blue_y, color=self.color, edgecolors='black')
             elif self.mode == 1:
                 self.red_x = np.append(self.red_x, event.xdata)
                 self.red_y = np.append(self.red_y, event.ydata)
-                self.ax.scatter(self.red_x, self.red_y, color=self.color)
+                self.ax.scatter(self.red_x, self.red_y, color=self.color, edgecolors='black')
             elif self.mode == 2:
                 self.additional_actions((event.xdata, event.ydata))
             self.show()
@@ -65,6 +66,5 @@ class ClassificationPlot(ABC):
     def classify(self, testing_point):
         ...
 
-    @abstractmethod
     def additional_actions(self, testing_point):
-        ...
+        pass
