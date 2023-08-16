@@ -66,10 +66,10 @@ class KNN_Plotter(ClassificationPlot):
         labels = np.hstack((np.array([0] * len(self.blue_x)), np.array([1] * len(self.red_x))))
         predictions, indices = knn(training_data, labels, grid_points, self.k, 2)
 
+        predictions[predictions == 0] = -1
         predictions = predictions.reshape(grid_y.shape)
 
-        print(predictions)
-        self.ax.contour(grid_x, grid_y, predictions, [1], colors=["blue", "red"], zorder=0)
+        self.ax.contourf(grid_x, grid_y, predictions, levels=[-1, 0, 1], colors=("cyan", "salmon"), zorder=0)
         self.show()
 
         self.firstPrediction = False
