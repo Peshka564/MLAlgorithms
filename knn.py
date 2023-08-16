@@ -1,6 +1,47 @@
 import numpy as np
 import matplotlib.pyplot as plt     
-     
+
+# In case of tie -> choose randomly
+def random_choice(labels, closestIndices, numberOfClasses, k):
+    labelFreq = np.zeros(numberOfClasses)
+    for i in range(0, k):
+        labelFreq[labels[closestIndices[i]]] += 1
+
+    maxFreq = -1
+    maxLabel = -1
+    for i in range(0, numberOfClasses):
+        if labelFreq[i] > maxFreq:
+            maxFreq = labelFreq[i]
+            maxLabel = i
+        elif labelFreq[i] == maxFreq:
+            maxLabel = np.random.choice([maxLabel, i], 1)[0]
+    return maxLabel
+
+# In case of tie -> decrease k until tie is broken
+def decreaseK(labels, closestIndices, numberOfClasses):
+    labelFreq = np.zeros(numberOfClasses)
+    labelFreq[labels[closestIndices[0]]] += 1
+    candidates = [labels[closestIndices[0]]]
+    tied_candidates = [1]
+    occurances = 1
+
+    for i in range(1, len(closestIndices)):
+        labelFreq[labels[closestIndices[i]]] += 1
+        if labelFreq[labels[closestIndices[i]]] > occurances:
+            occurances += 1
+            candidates.append(labels[closestIndices[i]])
+            tied_candidates.append(1)
+        elif labelFreq[labels[closestIndices[i]]] == occurances:
+            tied_candidates.append(tied_candidates[i - 1] + 1)
+            candidates.append(candidates[i - 1])
+        else:
+            candidates.append(candidates[i - 1])
+            tied_candidates.append(tied_candidates[i - 1])
+
+    for i in range(len(closestIndices) - 1, -1, -1):
+        if tied_candidates[i] == 1:
+            return candidates[i]
+
 # Additional improvements to add:
 # Learn the best metric during training
 # Feature weights
@@ -34,34 +75,7 @@ def knn(training_points, labels, testing_points, k, numberOfClasses, normOrder=2
 
         # Classify points
         # Expecting labels[i] to be from 0 to numberOfLabels
-        
-        labelFreq = np.zeros(numberOfClasses)
-        for i in range(0, k):
-            labelFreq[labels[closestIndices[i]]] += 1
-
-        # most_occuring = np.max(labelFreq)
-
-        # candidates = np.flatnonzero(np.where(labelFreq == most_occuring))
-        # maxLabel = -1
-        # reduction_index = 0
-        # while len(candidates) != 1:
-        #     labelFreq[labels[closestIndices[-1 - reduction_index]]] -= 1
-        #     candidates = np.flatnonzero(np.where(labelFreq == most_occuring))
-
-        # maxLabel = candidates[0]
-
-        # Find most occuring label
-        # In case of tie -> choose randomly
-        maxFreq = -1
-        maxLabel = -1
-        for i in range(0, numberOfClasses):
-            if labelFreq[i] > maxFreq:
-                maxFreq = labelFreq[i]
-                maxLabel = i
-            elif labelFreq[i] == maxFreq:
-                maxLabel = np.random.choice([maxLabel, i], 1)[0]
-        
-        predicted_labels[testing_index] = maxLabel
+        predicted_labels[testing_index] = decreaseK(labels, closestIndices, numberOfClasses)
         closest[testing_index] = closestIndices
 
     return (predicted_labels, closest)
