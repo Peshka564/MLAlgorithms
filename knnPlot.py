@@ -51,7 +51,13 @@ class KNN_Plotter(ClassificationPlot):
 
         if not self.firstPrediction: return
 
-        # Draw KNN boundary
+        # Draw KNN boundary for different k values
+
+        fig1, axes = plt.subplots(nrows = 3, ncols=3, figsize=(5, 5))
+        axes = axes.flatten()
+        fig1.tight_layout()
+        for ax in axes:
+            ax.set_xlim([self.range[0], self.range[1]])
 
         # The boundary is just a dense grid with classified test points
         grid_axis1 = np.linspace(self.range[0], self.range[1], (self.range[1] - self.range[0]) * 10)
@@ -64,12 +70,27 @@ class KNN_Plotter(ClassificationPlot):
         training_y = np.hstack((self.blue_y, self.red_y))
         training_data = np.stack((training_x, training_y), axis=1)
         labels = np.hstack((np.array([0] * len(self.blue_x)), np.array([1] * len(self.red_x))))
+
+        # Different plots
+        for k, ax in enumerate(axes):    
+            predictions, indices = knn(training_data, labels, grid_points, k + 1, 2)
+
+            predictions[predictions == 0] = -1
+            predictions = predictions.reshape(grid_y.shape)
+
+            ax.contourf(grid_x, grid_y, predictions, levels=[-1, 0, 1], colors=("cyan", "salmon"), zorder=0)
+            ax.scatter(self.blue_x, self.blue_y, color="blue", edgecolors='black')
+            ax.scatter(self.red_x, self.red_y, color="red", edgecolors='black')
+            ax.set_title(f"k={k + 1}")
+
+        # Main plot
         predictions, indices = knn(training_data, labels, grid_points, self.k, 2)
 
         predictions[predictions == 0] = -1
         predictions = predictions.reshape(grid_y.shape)
 
         self.ax.contourf(grid_x, grid_y, predictions, levels=[-1, 0, 1], colors=("cyan", "salmon"), zorder=0)
+        
         self.show()
 
         self.firstPrediction = False
