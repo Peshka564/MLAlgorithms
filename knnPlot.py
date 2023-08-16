@@ -72,16 +72,16 @@ class KNN_Plotter(ClassificationPlot):
         labels = np.hstack((np.array([0] * len(self.blue_x)), np.array([1] * len(self.red_x))))
 
         # Different plots
-        # for k, ax in enumerate(axes):    
-        #     predictions, indices = knn(training_data, labels, grid_points, k + 1, 2)
+        for k, ax in enumerate(axes):    
+            predictions, indices = knn(training_data, labels, grid_points, k + 1, 2)
 
-        #     predictions[predictions == 0] = -1
-        #     predictions = predictions.reshape(grid_y.shape)
+            predictions[predictions == 0] = -1
+            predictions = predictions.reshape(grid_y.shape)
 
-        #     ax.contourf(grid_x, grid_y, predictions, levels=[-1, 0, 1], colors=("cyan", "salmon"), zorder=0)
-        #     ax.scatter(self.blue_x, self.blue_y, color="blue", edgecolors='black')
-        #     ax.scatter(self.red_x, self.red_y, color="red", edgecolors='black')
-        #     ax.set_title(f"k={k + 1}")
+            ax.contourf(grid_x, grid_y, predictions, levels=[-1, 0, 1], colors=("cyan", "salmon"), zorder=0)
+            ax.scatter(self.blue_x, self.blue_y, color="blue", edgecolors='black')
+            ax.scatter(self.red_x, self.red_y, color="red", edgecolors='black')
+            ax.set_title(f"k={k + 1}")
 
         # Main plot
         predictions, indices = knn(training_data, labels, grid_points, self.k, 2)
