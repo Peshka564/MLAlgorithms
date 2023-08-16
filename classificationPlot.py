@@ -20,8 +20,8 @@ class ClassificationPlot(ABC):
         self.range = range
         self.ax.set_xlim([self.range[0], self.range[1]])
         self.ax.set_ylim([self.range[0], self.range[1]])
-        self.ax.legend(handles=[Line2D([0], [0], marker='o', color="blue", label="-1", markerfacecolor="blue", markersize=10), 
-                                Line2D([0], [0], marker='o', color="red", label="1", markerfacecolor="red", markersize=10)], loc=1)
+        self.ax.legend(handles=[Line2D([0], [0], marker='o', color="blue", markerfacecolor="blue", markersize=10), 
+                                Line2D([0], [0], marker='o', color="red", markerfacecolor="red", markersize=10)], loc=1)
 
         self.fig.canvas.mpl_connect("key_press_event", self.onPress)
         self.fig.canvas.mpl_connect("button_press_event", self.onClick)

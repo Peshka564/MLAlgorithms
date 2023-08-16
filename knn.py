@@ -38,7 +38,18 @@ def knn(training_points, labels, testing_points, k, numberOfClasses, normOrder=2
         labelFreq = np.zeros(numberOfClasses)
         for i in range(0, k):
             labelFreq[labels[closestIndices[i]]] += 1
-            
+
+        # most_occuring = np.max(labelFreq)
+
+        # candidates = np.flatnonzero(np.where(labelFreq == most_occuring))
+        # maxLabel = -1
+        # reduction_index = 0
+        # while len(candidates) != 1:
+        #     labelFreq[labels[closestIndices[-1 - reduction_index]]] -= 1
+        #     candidates = np.flatnonzero(np.where(labelFreq == most_occuring))
+
+        # maxLabel = candidates[0]
+
         # Find most occuring label
         # In case of tie -> choose randomly
         maxFreq = -1
@@ -56,7 +67,7 @@ def knn(training_points, labels, testing_points, k, numberOfClasses, normOrder=2
     return (predicted_labels, closest)
 
 def knn_eval(training_points, training_labels, testing_points, testing_labels, k, numberofClasses, normOrder=2):
-    predicted_labels, indices= knn(training_points, training_labels, testing_points, k, numberofClasses, normOrder)
+    predicted_labels, indices = knn(training_points, training_labels, testing_points, k, numberofClasses, normOrder)
     
     correct = 0
     for i in range(0, len(testing_labels)):
