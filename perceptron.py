@@ -1,8 +1,6 @@
 import numpy as np
 
 class Perceptron:
-    def __init__(self):
-        pass
 
     def fit(self, training_data, training_labels):
         if len(training_data) == 0: raise Exception("No training samples")
@@ -22,11 +20,15 @@ class Perceptron:
                 if training_labels[i] * np.dot(training_data[i], w) <= 0:
                     w += training_labels[i] * training_data[i]
                     changed = True
-                print(w.T)
-                print(changed)
             if not changed: break
         
         self.w = w
 
     def get_parameters(self):
         return self.w
+    
+    def predict(self, testing_points):
+        predictions = np.array([np.dot(self.w, testing_point) for testing_point in testing_points])
+        predictions[predictions < 0] = -1
+        predictions[predictions >= 0] = 1
+        return predictions

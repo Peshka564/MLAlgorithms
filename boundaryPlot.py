@@ -13,13 +13,18 @@ class BoundaryPlot(ClassificationPlot):
         # w, b = self.classify()
         #boundaryX = np.linspace(self.range[0], self.range[1], (self.range[1] - self.range[0]) * 100)
         
-        x = np.linspace(self.range[0], self.range[1], (self.range[1] - self.range[0]))
+        x = np.linspace(self.range[0], self.range[1], (self.range[1] - self.range[0]) * 10)
+        y = np.linspace(self.range[0], self.range[1], (self.range[1] - self.range[0]) * 10)
         # params = [w, b]
         params = self.classify()
-        y = np.dot(params, [(val, 1) for val in x])
-        self.ax.plot(x, y, c="black")
-        self.ax.fill_between(x, self.range[0], y, facecolor=f"{'red' if params[-1] > 0 else 'blue'}", zorder=0)
-        self.ax.fill_between(x, y, self.range[1], facecolor=f"{'blue' if params[-1] > 0 else 'red'}", zorder=0)
+        x, y = np.meshgrid(x, y)
+        grid_points = np.array([[point_x, point_y, 1] for point_x, point_y in zip(x.flatten(), y.flatten())])
+
+        p = np.array([1 if np.dot(params, point) >= 0 else -1 for point in grid_points])
+        p = p.reshape(x.shape)
+
+        self.ax.contourf(x, y, p, levels=[-1, 0, 1], colors=("cyan", "salmon"), zorder=0)
+
 
     def classify(self):
         # Prepare data

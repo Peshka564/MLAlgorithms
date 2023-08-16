@@ -8,10 +8,10 @@ from knnComparison import classifyFaces
 
 def __main__():
 
-    # bplot = BoundaryPlot(range=(0, 10), linear_classifier=Perceptron())
-    # bplot.show()
-    knnp = KNN_Plotter(k=4, range=(0, 10))
-    knnp.show()
+    bplot = BoundaryPlot(range=(0, 10), linear_classifier=Perceptron())
+    bplot.show()
+    #knnp = KNN_Plotter(k=4, range=(0, 10))
+    #knnp.show()
 
     #classifyFaces()
 
