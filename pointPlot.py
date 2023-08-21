@@ -4,7 +4,7 @@ from matplotlib.lines import Line2D
 import numpy as np
 from abc import ABC, abstractmethod
 
-class ClassificationPlot(ABC):
+class PointPlot(ABC):
 
     def __init__(self, range):
         self.fig, self.ax = plt.subplots()
@@ -60,10 +60,6 @@ class ClassificationPlot(ABC):
                             
     @abstractmethod
     def updateAfterPlot(self):
-        ...
-
-    @abstractmethod
-    def classify(self, testing_point):
         ...
 
     def additional_actions(self, testing_point):

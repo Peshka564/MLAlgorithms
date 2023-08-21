@@ -1,9 +1,9 @@
-from classificationPlot import ClassificationPlot
+from pointPlot import PointPlot
 from knn import knn, knn_eval
 import matplotlib.pyplot as plt
 import numpy as np
 
-class KNN_Plotter(ClassificationPlot):
+class KNN_Plotter(PointPlot):
 
     def __init__(self, k, range):
         if k == 0: raise Exception("Invalid k")

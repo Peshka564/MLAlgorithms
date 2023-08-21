@@ -25,10 +25,11 @@ class Perceptron:
         self.w = w
 
     def get_parameters(self):
+        # Params: [w, b]
         return self.w
     
     def predict(self, testing_points):
         predictions = np.array([np.dot(self.w, testing_point) for testing_point in testing_points])
-        predictions[predictions < 0] = -1
         predictions[predictions >= 0] = 1
+        predictions[predictions < 0] = 0
         return predictions

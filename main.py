@@ -1,14 +1,16 @@
 from knnPlot import KNN_Plotter
+from perceptronPlot import PerceptronPlot
 from knn import knn_eval
-import numpy as np
-from boundaryPlot import BoundaryPlot
 from perceptron import Perceptron
+
+import numpy as np
 import matplotlib.pyplot as plt
+
 from knnComparison import classifyFaces
 
 def __main__():
 
-    bplot = BoundaryPlot(range=(0, 10), linear_classifier=Perceptron())
+    bplot = PerceptronPlot(range=(0, 10))
     bplot.show()
     #knnp = KNN_Plotter(k=4, range=(0, 10))
     #knnp.show()
