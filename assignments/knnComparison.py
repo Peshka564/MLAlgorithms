@@ -1,12 +1,15 @@
+import sys, os
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
 import numpy as np
-from knn import knn_eval
+from algorithms.knn import knn_eval
 from scipy.io import loadmat
 from sklearn import neighbors
 
 def classifyFaces():
     
     # Cornell CS4780 course dataset
-    data = loadmat('./MlAlgorithms/faces.mat')
+    data = loadmat('./MlAlgorithms/data/faces.mat')
 
     training_data = np.array(data['xTr'].T)
     training_labels = np.round(data['yTr']).T.flatten() - 1

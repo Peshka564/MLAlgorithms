@@ -1,5 +1,8 @@
-from pointPlot import PointPlot
-from knn import knn, knn_eval
+import sys, os
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
+from plots.pointPlot import PointPlot
+from algorithms.knn import knn, knn_eval
 import matplotlib.pyplot as plt
 import numpy as np
 

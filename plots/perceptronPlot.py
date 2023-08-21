@@ -1,5 +1,8 @@
-from perceptron import Perceptron
-from boundaryPlot import BoundaryPlot
+import sys, os
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
+from algorithms.perceptron import Perceptron
+from plots.boundaryPlot import BoundaryPlot
 import numpy as np
 
 class PerceptronPlot(BoundaryPlot):

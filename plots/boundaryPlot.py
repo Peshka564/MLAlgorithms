@@ -1,4 +1,4 @@
-from pointPlot import PointPlot
+from plots.pointPlot import PointPlot
 import numpy as np
 from abc import ABC, abstractmethod
 

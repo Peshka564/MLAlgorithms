@@ -1,20 +1,16 @@
-from knnPlot import KNN_Plotter
-from perceptronPlot import PerceptronPlot
-from knn import knn_eval
-from perceptron import Perceptron
+from plots.knnPlot import KNN_Plotter
+from plots.perceptronPlot import PerceptronPlot
+from algorithms.knn import knn_eval
+from algorithms.perceptron import Perceptron
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-from knnComparison import classifyFaces
-
+from assignments.NBGender import classifyGenderByName
 def __main__():
 
-    bplot = PerceptronPlot(range=(0, 10))
-    bplot.show()
-    #knnp = KNN_Plotter(k=4, range=(0, 10))
-    #knnp.show()
+    #bplot = PerceptronPlot(range=(0, 10))
+    #bplot.show()
 
-    #classifyFaces()
-
+    classifyGenderByName()
 __main__()
