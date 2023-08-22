@@ -3,7 +3,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 import numpy as np
 from algorithms.naiveBayes import NaiveBayes
-# nltk package for stop words and punctuation removal
+from sklearn.naive_bayes import MultinomialNB
 
 def classifyGenderByName():
     def hashfeatures(baby, B):
@@ -44,16 +44,20 @@ def classifyGenderByName():
     Y = Y.reshape(-1, 1)
 
     nb = NaiveBayes([1] * 128)
+    nbx = MultinomialNB()
 
     nb.fit(np.concatenate((X, Y), axis=1), 2)
+    nbx.fit(X, Y)
 
-    testing_names = np.array(["Johnny", "Trump", "Pearl", "Adriana", "Melina", "DJ", "JD", "Pesho"])
+    testing_names = np.array(["Johnny", "Trump", "Pearl", "Adriana", "Melina", "DJ", "Caitlyn"])
     hashed_names = np.empty(shape=(len(testing_names), 128))
 
     for i in range(len(testing_names)):
         hashed_names[i] = hashfeatures(testing_names[i], 128)
 
     for i in range(len(testing_names)):
-        print(f"{testing_names[i]} is a {('boy' if nb.predict(hashed_names[i]) == 0 else 'girl')}")
-        print(hashed_names[i])
+        print(f"Original: {testing_names[i]} is a {('boy' if nb.predict(hashed_names[i]) == 0 else 'girl')}")
+        print(f"Sklearn: {testing_names[i]} is a {('boy' if nbx.predict(np.array([hashed_names[i]])) == 0 else 'girl')}")
+        print()
+        #print(hashed_names[i])
 

@@ -11,4 +11,4 @@ This project includes realisations of common algorithms such as Linear and Logis
 (**) Sources of the data and task requirements: https://github.com/aevanchen/machine_learning_miniprojects/tree/master
 
 Made from scratch only using numpy, matplotlib and scipy
-scikit-learn is only used for convenience and not in the implementation of the algorithms
+scikit-learn is only used for comparing the implementations of the algorithms
