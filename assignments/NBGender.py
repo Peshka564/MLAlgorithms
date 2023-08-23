@@ -28,8 +28,8 @@ def classifyGenderByName():
     def genTrainFeatures(dimension=128):
 
         # Load in the data
-        Xgirls = name2features("./MlAlgorithms/data/girls.train", B=dimension)
-        Xboys = name2features("./MlAlgorithms/data/boys.train", B=dimension)
+        Xgirls = name2features("./MlAlgorithms/data/girls.csv", B=dimension)
+        Xboys = name2features("./MlAlgorithms/data/boys.csv", B=dimension)
         X = np.concatenate([Xgirls, Xboys])
         
         # Generate Labels

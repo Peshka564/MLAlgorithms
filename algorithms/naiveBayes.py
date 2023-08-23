@@ -13,15 +13,16 @@ class NaiveBayes():
         num_features = training_data.shape[1] - 1
         if num_features != len(self.distributions): raise Exception("Invalid distribution-feature mapping")
 
+        self.training_data = training_data
         self.num_features = num_features
         self.num_labels = num_labels
 
         # P(Y = yi) = label_freqs[i] / len(label_freqs)
         # Assuming the labels are in the range [0, num_labels)
-        label_freqs = self.compute_label_probabilites(training_data)
+        label_freqs = self.compute_label_probabilites()
 
         # label_prob: log(P(Y)) with +1 smoothing
-        self.label_prob = np.log(label_freqs + 1 / (len(training_data) + self.num_labels))
+        self.label_prob = np.log(label_freqs + 1 / (len(self.training_data) + self.num_labels))
 
         # P(X | Y)
         feature_freqs = np.zeros(shape=(self.num_labels, self.num_features))
@@ -33,13 +34,11 @@ class NaiveBayes():
                     if training_data[training_example_index][-1] == label_index:
                         feature_freqs[label_index][feature_index] += training_data[training_example_index][feature_index] + 1
 
-        num_words_per_label = np.array([np.sum(feature_freqs[label_index]) for label_index in range(num_labels)]) + self.num_features
+        num_words_per_label = (np.array([np.sum(feature_freqs[label_index]) for label_index in range(num_labels)]) + self.num_features).reshape(-1, 1)
         
         # feature_prob: log(P(X | Y))
-        self.feature_prob = np.empty(shape=feature_freqs.shape) 
-        for label in range(num_labels):
-            self.feature_prob[label] = np.log(feature_freqs[label] / num_words_per_label[label])
-                
+        self.feature_prob = np.log(feature_freqs / num_words_per_label)
+             
     def predict(self, training_example):
         # y = argmax ln(P(y)) + sum i from 0 to num_features - xi * ln(P(xi | y))
         probs = np.copy(self.label_prob)
@@ -48,8 +47,8 @@ class NaiveBayes():
                 probs[label] += training_example[feature_index] * self.feature_prob[label][feature_index]
         return np.argmax(probs)
 
-    def compute_label_probabilites(self, training_data):
+    def compute_label_probabilites(self):
         label_freqs = np.zeros(shape=self.num_labels)
-        for i in range(0, len(training_data)):
-            label_freqs[int(training_data[i][-1])] += 1
+        for i in range(0, len(self.training_data)):
+            label_freqs[int(self.training_data[i][-1])] += 1
         return label_freqs
