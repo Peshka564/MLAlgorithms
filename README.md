@@ -10,5 +10,5 @@ This project includes realisations of common algorithms such as Linear and Logis
 (*) K-nearest neighbors, Perceptron classification, Multinomial/Gaussian Naive Bayes, Linear Regression, Logistic Regression    
 (**) Sources of the data and task requirements: https://github.com/aevanchen/machine_learning_miniprojects/tree/master
 
-Made from scratch only using numpy, matplotlib and scipy
+Made from scratch only using numpy, matplotlib and scipy        
 scikit-learn is only used for comparing the implementations of the algorithms

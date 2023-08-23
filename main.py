@@ -1,5 +1,6 @@
 from plots.knnPlot import KNN_Plotter
 from plots.perceptronPlot import PerceptronPlot
+from plots.naiveBayesPlot import NBPlot
 from algorithms.knn import knn_eval
 from algorithms.perceptron import Perceptron
 
@@ -9,8 +10,8 @@ import matplotlib.pyplot as plt
 from assignments.NBGender import classifyGenderByName
 def __main__():
 
-    #bplot = PerceptronPlot(range=(0, 10))
-    #bplot.show()
+    nbplot = NBPlot(range=(0, 10))
+    nbplot.show()
 
-    classifyGenderByName()
+    #classifyGenderByName()
 __main__()
