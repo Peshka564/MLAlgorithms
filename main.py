@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 from assignments.NBGender import classifyGenderByName
 def __main__():
 
-    nbplot = NBPlot(range=(0, 10))
-    nbplot.show()
+    #nbplot = NBPlot(range=(0, 10))
+    #nbplot.show()
 
-    #classifyGenderByName()
+    classifyGenderByName()
 __main__()

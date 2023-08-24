@@ -46,9 +46,9 @@ class MultinomialNB(NaiveBayes):
             for feature_index in range(self.num_features):
                 for training_example_index in range(len(self.training_data)):
                     if self.training_data[training_example_index][-1] == label_index:
-                        self.feature_probs[label_index][feature_index] += self.training_data[training_example_index][feature_index] + 1
+                        feature_probs[label_index][feature_index] += self.training_data[training_example_index][feature_index] + 1
 
-        num_words_per_label = (np.array([np.sum(self.feature_probs[label_index]) for label_index in range(self.num_labels)]) + self.num_features).reshape(-1, 1)
+        num_words_per_label = (np.array([np.sum(feature_probs[label_index]) for label_index in range(self.num_labels)]) + self.num_features).reshape(-1, 1)
         
         # log_feature_prob: log(P(X | Y))
         self.log_feature_prob = np.log(feature_probs / num_words_per_label)
